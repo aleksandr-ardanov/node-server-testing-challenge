@@ -5,7 +5,7 @@ const getAll = () => {
 }
 
 const getById = (id) => {
-    return db('users').where({id})
+    return db('users').where({id}).first()
 }
 
 const add = async (file) => {
@@ -13,8 +13,13 @@ const add = async (file) => {
    return getById(id)
 }
 
+const edit = async (id,file) => {
+    return db('users').where({id}).update(file)
+}
+
 module.exports = {
     getAll,
     getById,
-    add
+    add,
+    edit
 }
