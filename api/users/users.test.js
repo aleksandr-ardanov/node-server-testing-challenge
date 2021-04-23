@@ -17,9 +17,24 @@ afterAll(async ()=> {
 })
 
 describe('server', () => {
-    it('returns empty database',async() => {
-      const check = await request(server).get('/api/users')
-      expect(check.body.length).toBe(0)
-      expect(check.status).toBe(200)
+    describe("[GET] /api/users",() => {
+        it('returns an empty database',async() => {
+          const check = await request(server).get('/api/users')
+          expect(check.body.length).toBe(0)
+        })
+        it('responds with status 200 ok', async() => {
+          const check = await request(server).get('/api/users')
+          expect(check.status).toBe(200)
+        })
+        it('returns correct data when added a user', async() => {
+            await db('users').insert(frodo)
+            let res = await request(server).get('/api/users')
+            expect(res.body).toHaveLength(1)
+            expect(res.body[0]).toMatchObject({id:1,...frodo})
+            await db('users').insert(sam)
+            res = await request(server).get('/api/users')
+            expect(res.body.length).toBe(2)
+            expect(res.body[1]).toMatchObject({id:2,...sam})
+        })
     })
 })
