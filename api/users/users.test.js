@@ -49,10 +49,11 @@ describe('server', () => {
     })
     describe("[PUT] /api/users/id",() => {
         it('updates existed user',async() => {
-            await Users.add(frodo)
+            const like = await Users.add(frodo)
             let res = await request(server).get('/api/users')
             expect(res.body).toHaveLength(1)
-            
+            let check = await Users.edit(1,sam)
+            expect(check).toMatchObject({...like,...sam})
         })
     })
 })

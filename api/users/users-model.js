@@ -14,7 +14,8 @@ const add = async (file) => {
 }
 
 const edit = async (id,file) => {
-    return db('users').where({id}).update(file)
+    await db('users').where({id}).update(file)
+   return getById(id) 
 }
 
 module.exports = {

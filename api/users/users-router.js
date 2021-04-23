@@ -32,5 +32,16 @@ router.post('/', (req,res,next) => {
         })
 })
 
+router.put('/:id', (req,res,next) => {
+    const {id} = req.params
+    Users.edit(id,req.body)
+        .then(user => {
+            res.status(201).json(user)
+        })
+        .catch(err => {
+            next(err)
+        })
+})
+
 
 module.exports = router
